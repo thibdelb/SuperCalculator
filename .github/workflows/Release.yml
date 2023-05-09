@@ -35,4 +35,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.thibdelb }}/SuperCalculator:${{ github.ref_escaped }}
+          tags: ${{ secrets.thibdelb }}/SuperCalculator:1.1.1
