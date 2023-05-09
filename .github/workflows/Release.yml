@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.19'
+
+      - name: Install Goreleaser
+        run: |
+          curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh -s -- -b $(go env GOPATH)/bin latest
+
+      - name: Build and package with Goreleaser
+        run: goreleaser release --rm-dist
+
+      - name: Configure Docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.thibdelb}}
+          password: ${{ secrets.TdT140200! }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.thibdelb }}/SuperCalculator:${{ github.ref_escaped }}
