@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run Semgrep
-        run: semgrep .
+        run: returntocorp/semgrep-action@v1
 
   docker-analysis:
     runs-on: ubuntu-latest
