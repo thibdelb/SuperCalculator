@@ -1,0 +1,49 @@
+name: Lint Workflow
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Run Semgrep
+        run: semgrep .
+
+  docker-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Run Hadolint
+        run: |
+          docker run --rm -i hadolint/hadolint < Dockerfile
+
+  super-calculator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Run SuperCalculator
+        run: ./super_calculator
+
+  super-linter:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Super-Linter
+        uses: github/super-linter@v4
+        with:
+          app: all
+          annotations: true
+          validate_yaml: false
+          debug: false
