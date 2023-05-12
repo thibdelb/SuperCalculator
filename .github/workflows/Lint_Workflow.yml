@@ -1,4 +1,5 @@
 name: Lint Workflow
+
 on:
   pull_request:
   push:
@@ -20,9 +21,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Run Hadolint
+      - name: Install Hadolint
         run: |
-          docker run --rm -i hadolint/hadolint < Dockerfile
+          wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+          chmod +x /usr/local/bin/hadolint
+
+      - name: Run Hadolint
+        run: hadolint < Dockerfile
 
 
   super-linter:
