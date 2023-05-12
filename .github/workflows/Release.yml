@@ -2,8 +2,7 @@ name: Release Workflow
 
 on:
   push:
-    tags:
-      - '*'
+
 
 jobs:
   build:
