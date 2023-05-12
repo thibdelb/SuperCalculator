@@ -7,31 +7,31 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    - name: Setup Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.19
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19
 
-    - name: Install Goreleaser
-      run: curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh -s -- -b $(go env GOPATH)/bin
+      - name: Install Goreleaser
+        run: |
+          GO111MODULE=on go get github.com/goreleaser/goreleaser@v0.179.1
 
-    - name: Build and Release
-      run: goreleaser release --rm-dist
+      - name: Build and Release
+        run: |
+          go mod tidy
+          goreleaser release --rm-dist
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USER }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build Docker Image
-      run: docker build -t ${{ secrets.DOCKER_USER }}/SuperCalculator:1.1.1 
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USER }}/SuperCalculator:1.1.1 .
 
-    - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKER_USER }}/SuperCalculator:1.1.1 
-
-
-
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USER }}/SuperCalculator:1.1.1
