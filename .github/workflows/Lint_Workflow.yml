@@ -9,38 +9,23 @@ jobs:
   static-analysis:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Run Semgrep
+      - uses: actions/checkout@v2
+      - name: Run semgrep
         uses: returntocorp/semgrep-action@v1
 
-  docker-analysis:
+  dockerfile-analysis:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Install Hadolint
-        run: |
-          wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
-          chmod +x /usr/local/bin/hadolint
-
+      - uses: actions/checkout@v2
+      - name: Download Hadolint Docker image
+        run: docker pull hadolint/hadolint
       - name: Run Hadolint
-        run: hadolint < Dockerfile
-
+        run: docker run --rm -i hadolint/hadolint < Dockerfile
 
   super-linter:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Setup Super-Linter
+      - uses: actions/checkout@v2
+      - name: Run Super-Linter
         uses: github/super-linter@v4
-        with:
-          app: all
-          annotations: true
-          validate_yaml: false
-          debug: false
