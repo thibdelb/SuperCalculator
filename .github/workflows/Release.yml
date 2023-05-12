@@ -17,7 +17,9 @@ jobs:
 
       - name: Install Goreleaser
         run: |
-          GO111MODULE=on go get github.com/goreleaser/goreleaser@v0.179.1
+             GO111MODULE=on go get github.com/goreleaser/goreleaser@v0.179.1
+              export PATH="${PATH}:${HOME}/go/bin"
+
 
       - name: Build and Release
         run: |
