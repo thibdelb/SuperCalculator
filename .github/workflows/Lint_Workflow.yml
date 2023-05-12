@@ -27,7 +27,7 @@ jobs:
           chmod +x /usr/local/bin/hadolint
 
       - name: Run Hadolint
-        run: hadolint < Dockerfile
+        run: hadolint < path/to/Dockerfile
 
 
   super-linter:
