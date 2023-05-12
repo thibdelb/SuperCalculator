@@ -17,7 +17,7 @@ jobs:
 
       - name: Install Goreleaser
         run: |
-             GO111MODULE=on go get github.com/goreleaser/goreleaser@v0.179.1
+             GO111MODULE=on go get github.com/goreleaser/goreleaser@v1.18.2
               export PATH="${PATH}:${HOME}/go/bin"
 
 
@@ -25,7 +25,7 @@ jobs:
         run: |
             go mod tidy
              export PATH="${PATH}:${HOME}/go/bin"
-              go get github.com/goreleaser/goreleaser@v0.179.1
+              go get github.com/goreleaser/goreleaser@v1.18.2
                goreleaser release --rm-dist
 
       - name: Login to Docker Hub
