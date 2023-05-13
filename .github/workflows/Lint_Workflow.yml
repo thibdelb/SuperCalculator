@@ -26,10 +26,11 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Run Super-Linter
-      - uses: github/super-linter@v5
-        env:
-           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Run Super-Linter
+      uses: github/super-linter@v5
+      env:
+         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       
         
