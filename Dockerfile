@@ -1,4 +1,4 @@
-FROM golang:1.19-buster AS build
+FROM golang:1.19-buster AS build:nonroot
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 
-ADD . .
+COPY . .
 
 RUN go build -o /calculator
 
